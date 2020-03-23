@@ -112,6 +112,13 @@ abcd
 
 1234
 
+1 * 1000 => 1000
+2 * 100 =>  0200
+3 * 10 =>   0030
+4 * 1 =>    0004
+----------------
+            1234
+
 base 2 (binary)
 
 +-----8's place (0b1000's place)
@@ -120,6 +127,15 @@ base 2 (binary)
 |||+--1's place (0b1's place)
 ||||
 abcd
+1010
+
+1 * 8 => 8
+0 * 4 => 0
+1 * 2 => 2
+0 * 1 => 0
+8 + 2 => 10 decimal
+
+1010 binary === 10 decimal
 
 
 bin to dec...
@@ -137,6 +153,18 @@ lets do more conversions...
 |||||||+--1's place (0b1's place)
 ||||||||
 abcdefgh
+00001110
+
+0 * 128
+0 * 64
+0 * 32
+0 * 16
+1 * 8
+1 * 4
+1 * 2
+0 * 1
+8 + 4 + 2 => 14
+1110 binary === 14 decimal
 
 
 
