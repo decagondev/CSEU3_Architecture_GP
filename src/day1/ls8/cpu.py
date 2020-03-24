@@ -6,6 +6,8 @@ import sys
 HLT = 0b00000001
 PRN = 0b01000111
 LDI = 0b10000010
+ADD = 0b10100000
+MUL = 0b10100010
 
 class CPU:
     """Main CPU class."""
@@ -17,26 +19,32 @@ class CPU:
         self.pc = 0
         self.halted = False
 
-    def load(self):
+    def load(self, filename):
         """Load a program into memory."""
+        try:
+            address = 0
+            with open(filename) as f:
+                for line in f:
+                    # split line before and after comment symbol
+                    comment_split = line.split("#")
 
-        address = 0
+                    # extract our number
+                    num = comment_split[0].strip() # trim whitespace
 
-        # For now, we've just hardcoded a program:
+                    if num == '':
+                        continue # ignore blank lines
 
-        program = [
-            # From print8.ls8
-            0b10000010, # LDI R0,8
-            0b00000000,
-            0b00001000,
-            0b01000111, # PRN R0
-            0b00000000,
-            0b00000001, # HLT
-        ]
+                    # convert our binary string to a number
+                    val = int(num, 2)
 
-        for instruction in program:
-            self.ram[address] = instruction
-            address += 1
+                    # store val at address in memory
+                    self.ram[address] = val
+
+                    address += 1
+
+        except FileNotFoundError:
+            print(f"{sys.argv[0]}: {filename} not found")
+            sys.exit(2)
 
 
     def alu(self, op, reg_a, reg_b):
@@ -45,6 +53,8 @@ class CPU:
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
         #elif op == "SUB": etc
+        elif op == "MUL":
+            self.reg[reg_a] *= self.reg[reg_b]
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -95,6 +105,14 @@ class CPU:
             elif cmd == LDI:
                 # do ldi
                 self.reg[operand_a] = operand_b
+                inc_size = 3
+
+            elif cmd == ADD:
+                self.alu("ADD", operand_a, operand_b)
+                inc_size = 3
+
+            elif cmd == MUL:
+                self.alu("MUL", operand_a, operand_b)
                 inc_size = 3
             
             self.pc += inc_size
