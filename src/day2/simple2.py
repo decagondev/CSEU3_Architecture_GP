@@ -1,10 +1,11 @@
+import sys
 # lets build up our simulator some more
 # now we will add the concept of registers
 # and an add opcode
 
 # let's make a simple data driven machine!!!
 HALT = 1
-PRINT_BOB = 2 # TODO: refactor to print name as in for me PRINT_TOM
+PRINT_TOM = 2
 PRINT_NUM = 3
 SAVE = 4
 PRINT_REG = 5
@@ -13,21 +14,37 @@ ADD = 6
 # think of some operations that we might want to perform such as print something, load  or store something etc
 # maybe some way to stop execution and some arithmetic operations
 
-# TODO: lets load a program in to memory
+# lets load a program in to memory
 def load_memory(filename):
-    pass
+    try:
+        address = 0
+        with open(filename) as f:
+            for line in f:
+                # split line before and after comment symbol
+                comment_split = line.split("#")
+
+                # extract our number
+                num = comment_split[0].strip() # trim whitespace
+
+                if num == '':
+                    continue # ignore blank lines
+
+                # convert our binary string to a number
+                val = int(num, 2)
+
+                # store val at address in memory
+                memory[address] = val
+
+                address += 1
+
+    except FileNotFoundError:
+        print(f"{sys.argv[0]}: {filename} not found")
+        sys.exit(2)
+
 
 # lets make a model of memory to hold our program
 # TODO: refactor to load in memory from file eg `memory = [0] * 128`
-memory = [
-    SAVE,
-    65,
-    2,
-    PRINT_REG,
-    2,
-    HALT,
-    PRINT_BOB
-]
+memory = [0] * 128
 
 register = [0] * 8
 
@@ -39,9 +56,11 @@ inc_size = 0
 
 # Main entrypoint
 # TODO: grap any args
-
+if len(sys.argv) != 2:
+    print("usage: simple.py filename", file=sys.stderr)
+    sys.exit(1)
 # TODO: load the memory
-
+load_memory(sys.argv[1])
 # REPL
 
 # lets make a running loop...
@@ -56,9 +75,9 @@ while running:
         # EXECUTE
         running = False
     
-    elif cmd == PRINT_BOB:
+    elif cmd == PRINT_TOM:
         # EXECUTE
-        print("Bob")
+        print("Tom")
         inc_size = 1
 
     elif cmd == PRINT_NUM:
@@ -77,10 +96,16 @@ while running:
         print(register[reg])
         inc_size = 2
 
-    # TODO: handle ADD opcode
+    # handle ADD opcode
+    elif cmd == ADD:
+        reg_a = memory[pc + 1]
+        reg_b = memory[pc + 2]
+        register[reg_a] += register[reg_b]
+        inc_size = 3
+
     
     else:
-        print("Invalid Instruction")
+        print(f"Invalid Instruction: {cmd}")
         running = False
 
     # how will we move forward in memory to grab the next command?
