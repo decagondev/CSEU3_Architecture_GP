@@ -10,7 +10,8 @@ PRINT_NUM = 3
 SAVE = 4
 PRINT_REG = 5
 ADD = 6
-#TODO: PUSH, POP opcodes
+PUSH = 7
+POP = 8
 
 # think of some operations that we might want to perform such as print something, load  or store something etc
 # maybe some way to stop execution and some arithmetic operations
@@ -50,6 +51,7 @@ memory = [0] * 128
 register = [0] * 8
 
 # TODO: Stack Pointer (R7) as per specs
+sp = 7
 
 
 # think about keeping track where we are currently in mem to fetch the next instruction
@@ -59,11 +61,10 @@ running = True
 inc_size = 0
 
 # Main entrypoint
-# TODO: grap any args
 if len(sys.argv) != 2:
     print("usage: simple.py filename", file=sys.stderr)
     sys.exit(1)
-# TODO: load the memory
+
 load_memory(sys.argv[1])
 # REPL
 
@@ -108,8 +109,28 @@ while running:
         inc_size = 3
 
     # TODO: Handle PUSH
+    elif cmd == PUSH:
+        # setup
+        reg = memory[pc + 1]
+        val = register[reg]
+
+        #PUSH
+        register[sp] -= 1
+        memory[register[sp]] = val
+        
+        inc_size = 2
 
     # TODO: Handle POP
+    elif cmd == POP:
+        # setup
+        reg = memory[pc + 1]
+        val = memory[register[sp]]
+
+        # pop
+        register[reg] = val
+        register[sp] += 1
+
+        inc_size = 2
     
     else:
         print(f"Invalid Instruction: {cmd}")
