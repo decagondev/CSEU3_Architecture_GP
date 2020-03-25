@@ -28,3 +28,11 @@
 - 5 min break
 - Talk About the Call Stack [I DO]
 - wrap up
+
+## Day 4 Agenda
+- Review Branch Tables [I DO]
+- 5 min break
+- Talk about CALL & RET (subroutines) [I DO]
+- 5 min break
+- Add CALL & RET to the Simple Machine [WE DO]
+- wrap up
