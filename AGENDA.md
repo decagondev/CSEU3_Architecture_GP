@@ -19,3 +19,12 @@
 - 5 min break
 - Simple Machine Improvements [WE DO]
 - Wrap Up
+
+## Day 3 Agenda
+- Talking about How the Stack Works in LS8 [I DO]
+- 5 min break
+- Add a stack to the simple machine (PUSH, POP) [WE DO]
+- Look at some real assembly on godbolt.org [I DO]
+- 5 min break
+- Talk About the Call Stack [I DO]
+- wrap up
