@@ -14,11 +14,10 @@ MUL = 0b10100010
 PUSH = 0b01000101
 POP = 0b01000110
 
-
 class CPU:
     """Main CPU class."""
 
-    def __init__(self):
+    def __init__(self, bt):
         """Construct a new CPU."""
         self.ram = [0] * 256
         self.reg = [0] * 8

@@ -114,6 +114,7 @@ pc = 0
 running = True
 inc_size = 0
 # TODO op_pc boolean to use for pc condition (add to each instruction case)
+op_pc = False
 
 # Main entrypoint
 if len(sys.argv) != 2:
@@ -139,28 +140,33 @@ while running:
         # EXECUTE
         print("Tom")
         inc_size = 1
+        op_pc = False
 
     elif cmd == PRINT_NUM:
         num = memory[pc + 1]
         print(num)
         inc_size = 2
+        op_pc = False
 
     elif cmd == SAVE:
         num = memory[pc + 1]
         reg = memory[pc + 2]
         register[reg] = num
         inc_size = 3
+        op_pc = False
 
     elif cmd == PRINT_REG:
         reg = memory[pc + 1]
         print(register[reg])
         inc_size = 2
+        op_pc = False
 
     elif cmd == ADD:
         reg_a = memory[pc + 1]
         reg_b = memory[pc + 2]
         register[reg_a] += register[reg_b]
         inc_size = 3
+        op_pc = False
 
     elif cmd == PUSH:
         # setup
@@ -172,6 +178,7 @@ while running:
         memory[register[sp]] = val
         
         inc_size = 2
+        op_pc = False
 
     elif cmd == POP:
         # setup
@@ -183,21 +190,33 @@ while running:
         register[sp] += 1
 
         inc_size = 2
+        op_pc = False
     
-    # TODO add CALL instruction
     elif cmd == CALL:
-        pass
-    # TODO: add RET instruction
+        # setup
+        reg = memory[pc + 1]
+
+        # CALL
+        register[sp] -= 1 # decrement sp
+        memory[register[sp]] = pc + 2 # push pc + 2 on to the stack
+
+        # set pc to subroutine
+        pc = register[reg]
+        op_pc = True
+
     elif cmd == RET:
-        pass
+        pc = memory[register[sp]]
+        register[sp] += 1
+        op_pc = True
 
     else:
         print(f"Invalid Instruction: {cmd}")
         running = False
 
     # how will we move forward in memory to grab the next command?
-    # TODO: add a condition for the opcode that interacts directly with the pc
-    pc += inc_size
+    # condition for the opcode that interacts directly with the pc
+    if not op_pc:
+        pc += inc_size
 
 
 # TODO: demo for Branch Table
