@@ -18,6 +18,45 @@ RET = 10 # New for day 4
 # think of some operations that we might want to perform such as print something, load  or store something etc
 # maybe some way to stop execution and some arithmetic operations
 
+# def op_halt(op1, op2):
+#     print("Halted!")
+#     sys.exit(-1)
+
+# def op_print_tom(op1, op2):
+#     print("tom")
+#     return 1
+
+# def op_print_num():
+#     print("PRINT_NUM")
+#     return 2
+
+# def op_save():
+#     print("SAVE")
+#     return 3
+
+# def op_print_reg():
+#     print("PRINT_REG")
+#     return 2
+
+# def op_add(op1, op2):
+#     self.alu(op1, op2)
+
+# def op_push():
+#     print("PUSH")
+#     return 2
+
+# def op_pop():
+#     print("POP")
+#     return 2
+
+# def op_call():
+#     print("CALL")
+#     return 3
+
+# def op_ret():
+#     print("RET")
+#     return 3
+
 # TODO: demo the idea of a branch table 
 ## branch table
 # bt = {
@@ -84,7 +123,7 @@ if len(sys.argv) != 2:
 load_memory(sys.argv[1])
 # REPL
 
-# lets make a running loop...
+# # lets make a running loop...
 while running:
     # extract a command maybe?
     # FETCH
@@ -165,48 +204,11 @@ while running:
 
 # while running:
 #     ir = memory[pc]
+#     op1 = memory[pc + 1]
+#     op2 = memory[pc + 2]
 
 #     if ir in bt:
-#         bt[ir]()
+#         pc += bt[ir](op1, op2)
 #     else:
 #         raise Exception(f"Invalid instruction {hex(ir)} at address {hex(pc)}")
 
-# def op_halt():
-#     print("Halted!")
-#     sys.exit(-1)
-
-# def op_print_tom():
-#     print("tom")
-#     pc += 1
-
-# def op_print_num():
-#     print("PRINT_NUM")
-#     pc +=2
-
-# def op_save():
-#     print("SAVE")
-#     pc += 2
-
-# def op_print_reg():
-#     print("PRINT_REG")
-#     pc += 2
-
-# def op_add():
-#     print("ADD")
-#     pc += 3
-
-# def op_push():
-#     print("PUSH")
-#     pc += 2
-
-# def op_pop():
-#     print("POP")
-#     pc += 2
-
-# def op_call():
-#     print("CALL")
-#     pc += 3
-
-# def op_ret():
-#     print("RET")
-#     pc -= 3

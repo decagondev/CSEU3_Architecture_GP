@@ -14,6 +14,7 @@ MUL = 0b10100010
 PUSH = 0b01000101
 POP = 0b01000110
 
+
 class CPU:
     """Main CPU class."""
 
@@ -24,6 +25,7 @@ class CPU:
         self.pc = 0
         self.halted = False
         self.reg[SP] = 0XF4
+
 
     def load(self, filename):
         """Load a program into memory."""
